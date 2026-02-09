@@ -86,11 +86,11 @@ export function Navbar() {
 
         await client.setDocuments([
           {
-            id: "airtable-inventory",
-            metadata: { documentName: "airtable-inventory" },
+            id: "slate-js-velt",
+            metadata: { documentName: "slate-js-velt" },
           },
         ])
-        console.log("Velt documents set: airtable-inventory")
+        console.log("Velt documents set: slate-js-velt")
       } catch (error) {
         console.error("Error initializing Velt:", error)
       } finally {
