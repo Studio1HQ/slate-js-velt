@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar"
 import { Badge } from "@/components/ui/badge"
 import { FileText, Sparkles } from "lucide-react"
 import { RichTextEditor } from "@/components/editor"
+import { VeltComments } from "@veltdev/react"
 
 export default function Home() {
   const [wordCount, setWordCount] = useState(70)
@@ -37,6 +38,7 @@ export default function Home() {
 
         {/* Editor */}
         <RichTextEditor onWordCountChange={setWordCount} />
+        <VeltComments />
 
         {/* Footer */}
         <div className="text-center mt-8 text-muted-foreground">
