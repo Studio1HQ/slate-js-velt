@@ -1,22 +1,24 @@
-"use client"
+import React from "react";
+import { RenderLeafProps } from "slate-react";
 
-import React from "react"
-import { RenderLeafProps } from "slate-react"
-import type { CustomText } from "./types"
+export const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
+    let processedChildren = children;
 
-interface LeafProps extends RenderLeafProps {
-    leaf: CustomText
-}
-
-export const Leaf = ({ attributes, children, leaf }: LeafProps) => {
     if (leaf.bold) {
-        children = <strong className="font-bold">{children}</strong>
+        processedChildren = <strong className="font-bold">{processedChildren}</strong>;
     }
+
     if (leaf.italic) {
-        children = <em className="italic">{children}</em>
+        processedChildren = <em className="italic">{processedChildren}</em>;
     }
+
     if (leaf.underline) {
-        children = <u className="underline">{children}</u>
+        processedChildren = <u className="underline decoration-violet-400/50">{processedChildren}</u>;
     }
-    return <span {...attributes}>{children}</span>
-}
+
+    if (leaf.strikethrough) {
+        processedChildren = <s className="line-through text-zinc-500">{processedChildren}</s>;
+    }
+
+    return <span {...attributes}>{processedChildren}</span>;
+};

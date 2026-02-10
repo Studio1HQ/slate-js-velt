@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { Navbar } from "@/components/navbar"
-import { Badge } from "@/components/ui/badge"
-import { FileText, Sparkles } from "lucide-react"
-import { RichTextEditor } from "@/components/editor"
-import { VeltComments } from "@veltdev/react"
+import React, { useState } from "react";
+import { Navbar } from "@/components/navbar";
+import { Badge } from "@/components/ui/badge";
+import { FileText, Sparkles } from "lucide-react";
+import { RichTextEditor } from "@/components/editor";
+import { VeltComments } from "@veltdev/react";
 
 export default function Home() {
-  const [wordCount, setWordCount] = useState(70)
+  const [wordCount, setWordCount] = useState(70);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -38,7 +38,7 @@ export default function Home() {
 
         {/* Editor */}
         <RichTextEditor onWordCountChange={setWordCount} />
-        <VeltComments />
+        <VeltComments textMode={false} />
 
         {/* Footer */}
         <div className="text-center mt-8 text-muted-foreground">
@@ -48,5 +48,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  )
+  );
 }

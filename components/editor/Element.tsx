@@ -1,54 +1,72 @@
-"use client"
+import React from "react";
+import { RenderElementProps } from "slate-react";
+import { SlateVeltComment } from "@veltdev/slate-velt-comments";
+import type { VeltCommentsElement } from "@veltdev/slate-velt-comments";
+import type { CustomElement } from "./types";
 
-import React from "react"
-import { RenderElementProps } from "slate-react"
-import type { CustomElement } from "./types"
+export const Element = ({ attributes, children, element }: RenderElementProps) => {
+    const style = { textAlign: (element as CustomElement).align || "left" };
 
-interface ElementProps extends RenderElementProps {
-    element: CustomElement
-}
-
-export const Element = ({ attributes, children, element }: ElementProps) => {
-    const style = { textAlign: element.align || "left" } as React.CSSProperties
+    if (element.type === "veltComment") {
+        return (
+            <SlateVeltComment
+                {...{ attributes, children, element: element as VeltCommentsElement }}
+            />
+        );
+    }
 
     switch (element.type) {
-        case "quote":
+        case "heading":
+            return (
+                <h1 {...attributes} style={style} className="text-3xl font-bold mb-4 text-white">
+                    {children}
+                </h1>
+            );
+        case "heading-two":
+            return (
+                <h2 {...attributes} style={style} className="text-2xl font-bold mb-3 text-white">
+                    {children}
+                </h2>
+            );
+        case "heading-three":
+            return (
+                <h3 {...attributes} style={style} className="text-xl font-bold mb-2 text-white">
+                    {children}
+                </h3>
+            );
+        case "block-quote":
             return (
                 <blockquote
                     {...attributes}
-                    className="border-l-4 border-primary pl-4 py-2 my-4 italic text-muted-foreground bg-muted/30 rounded-r"
                     style={style}
+                    className="border-l-4 border-violet-500/50 pl-4 my-4 italic text-zinc-300 bg-violet-500/5 py-2 rounded-r-lg"
                 >
                     {children}
                 </blockquote>
-            )
-        case "heading":
+            );
+        case "bulleted-list":
             return (
-                <h1
-                    {...attributes}
-                    className="text-2xl font-bold mb-4 text-foreground"
-                    style={style}
-                >
+                <ul {...attributes} style={style} className="list-disc list-inside mb-4 text-zinc-200">
                     {children}
-                </h1>
-            )
+                </ul>
+            );
+        case "numbered-list":
+            return (
+                <ol {...attributes} style={style} className="list-decimal list-inside mb-4 text-zinc-200">
+                    {children}
+                </ol>
+            );
         case "list-item":
             return (
-                <div {...attributes} className="ml-6 mb-2 list-disc" style={style}>
-                    • {children}
-                </div>
-            )
-        case "numbered-list-item":
-            return (
-                <div {...attributes} className="ml-6 mb-2" style={style}>
+                <li {...attributes} style={style} className="mb-1">
                     {children}
-                </div>
-            )
+                </li>
+            );
         default:
             return (
-                <p {...attributes} className="mb-2 leading-relaxed" style={style}>
+                <p {...attributes} style={style} className="mb-3 text-zinc-200 leading-relaxed">
                     {children}
                 </p>
-            )
+            );
     }
-}
+};

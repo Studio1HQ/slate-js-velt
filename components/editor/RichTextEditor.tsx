@@ -1,123 +1,69 @@
 "use client";
 
 import React, {
+  useMemo,
   useState,
   useCallback,
-  useMemo,
   useEffect,
   useRef,
 } from "react";
 import { createEditor, Descendant, Editor } from "slate";
+import { Slate, Editable, withReact } from "slate-react";
 import { withHistory, HistoryEditor } from "slate-history";
-import { Editable, Slate, withReact, ReactEditor } from "slate-react";
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Type } from "lucide-react";
-import { Element } from "./Element";
-import { Leaf } from "./Leaf";
-import { EditorToolbar } from "./Toolbar";
-import "./types";
-const EDITOR_ID = "main-rich-text-editor"; // Unique ID for the editor instance
-// ✅ Velt
-import {
-  useCommentAnnotations,
-} from "@veltdev/react";
+import { useCommentAnnotations } from "@veltdev/react";
 import {
   withVeltComments,
   addComment,
   renderComments,
 } from "@veltdev/slate-velt-comments";
 
-const initialValue: Descendant[] = [
-  {
-    type: "heading",
-    children: [{ text: "Welcome to the Rich Text Editor Demo", bold: true }],
-  },
-  {
-    type: "paragraph",
-    children: [
-      { text: "This is a " },
-      { text: "beautiful", bold: true },
-      { text: " and " },
-      { text: "powerful", italic: true },
-      { text: " rich text editor built with " },
-      { text: "Slate.js", bold: true, italic: true },
-      { text: ". Try out the formatting options above!" },
-    ],
-  },
-  { type: "paragraph", children: [{ text: "" }] },
-  {
-    type: "quote",
-    children: [
-      {
-        text: "Great design is not just what it looks like and feels like — great design is how it works.",
-      },
-    ],
-  },
-  {
-    type: "quote",
-    children: [{ text: "— Steve Jobs", italic: true }],
-  },
-  { type: "paragraph", children: [{ text: "" }] },
-  { type: "paragraph", children: [{ text: "Features you can try:" }] },
-  {
-    type: "list-item",
-    children: [{ text: "✨ Bold, italic, and underline formatting" }],
-  },
-  {
-    type: "list-item",
-    children: [{ text: "📝 Multiple text alignment options" }],
-  },
-  { type: "list-item", children: [{ text: "📋 Lists and quotes" }] },
-  {
-    type: "list-item",
-    children: [{ text: "🎨 Beautiful, responsive design" }],
-  },
-];
-const getInitialEditorValue = (): Descendant[] => {
-  if (Array.isArray(initialValue) && initialValue.length > 0)
-    return initialValue;
-  return [{ type: "paragraph", children: [{ text: "" }] }];
-};
+// Components
+import { Toolbar } from "./Toolbar";
+import { BubbleMenu } from "./BubbleMenu";
+import { Element } from "./Element";
+import { Leaf } from "./Leaf";
+import { EditorFooter } from "./EditorFooter";
 
-interface RichTextEditorProps {
-  onWordCountChange?: (count: number) => void;
-}
+// Types, utils, and constants
+import type { CustomEditor } from "./types";
+import { toggleMark } from "./utils";
+import { initialContent } from "./constants";
 
-type CustomEditor = ReactEditor & HistoryEditor;
+export function RichTextEditor() {
+  const [value, setValue] = useState<Descendant[]>(initialContent);
+  const [showBubbleMenu, setShowBubbleMenu] = useState(false);
+  const [bubbleMenuPosition, setBubbleMenuPosition] = useState({
+    top: 0,
+    left: 0,
+  });
+  const bubbleMenuRef = useRef<HTMLDivElement>(null);
+  const editorContainerRef = useRef<HTMLDivElement>(null);
 
-export const RichTextEditor = ({ onWordCountChange }: RichTextEditorProps) => {
-  // ✅ create editor ONCE
   const editor = useMemo(() => {
-    const base = createEditor();
-    return withVeltComments(withReact(withHistory(base)), {
+    const baseEditor = createEditor();
+    return withVeltComments(withReact(withHistory(baseEditor)), {
       HistoryEditor: HistoryEditor,
-    }) as unknown as CustomEditor;
+    }) as CustomEditor;
   }, []);
 
-  const initialEditorValue = useMemo(() => getInitialEditorValue(), []);
-  const [value, setValue] = useState<Descendant[]>(initialEditorValue);
-
-  // ✅ Velt: live annotations -> render highlights/markers
   const commentAnnotations = useCommentAnnotations();
+
   useEffect(() => {
-    if (commentAnnotations?.length) {
+    if (editor && commentAnnotations?.length) {
       renderComments({ editor, commentAnnotations });
     }
   }, [editor, commentAnnotations]);
 
-  // ✅ Bubble menu state
-  const [showBubbleMenu, setShowBubbleMenu] = useState(false);
-  const [bubbleMenuPos, setBubbleMenuPos] = useState({ top: 0, left: 0 });
-  const bubbleMenuRef = useRef<HTMLDivElement>(null);
-
-  const renderElement = useCallback((props: any) => <Element {...props} />, []);
-  const renderLeaf = useCallback((props: any) => <Leaf {...props} />, []);
+  const handleAddComment = useCallback(() => {
+    if (editor) {
+      addComment({ editor });
+      setShowBubbleMenu(false);
+    }
+  }, [editor]);
 
   const updateBubbleMenu = useCallback(() => {
     const { selection } = editor;
 
-    // hide if no selection or empty string selection
     if (!selection || Editor.string(editor, selection) === "") {
       setShowBubbleMenu(false);
       return;
@@ -132,10 +78,10 @@ export const RichTextEditor = ({ onWordCountChange }: RichTextEditorProps) => {
     const domRange = domSelection.getRangeAt(0);
     const rect = domRange.getBoundingClientRect();
 
-    const menuHeight = bubbleMenuRef.current?.offsetHeight || 40;
-    const menuWidth = bubbleMenuRef.current?.offsetWidth || 160;
+    const menuHeight = bubbleMenuRef.current?.offsetHeight || 50;
+    const menuWidth = bubbleMenuRef.current?.offsetWidth || 220;
 
-    setBubbleMenuPos({
+    setBubbleMenuPosition({
       top: rect.top + window.scrollY - menuHeight - 10,
       left: rect.left + window.scrollX + rect.width / 2 - menuWidth / 2,
     });
@@ -143,97 +89,93 @@ export const RichTextEditor = ({ onWordCountChange }: RichTextEditorProps) => {
     setShowBubbleMenu(true);
   }, [editor]);
 
-  const handleAddComment = useCallback(() => {
-    console.log(
-      "Add comment triggered for selected text in the editor",
-      editor,
-    );
-    if (editor) {
-      addComment({ editor, editorId: EDITOR_ID }); // [Velt] Triggers comment creation flow on selected text in the editor
-      console.log("Comment added to the selected text in the editor", editor);
-    }
-  }, [editor]);
-
   const handleChange = useCallback(
     (newValue: Descendant[]) => {
       setValue(newValue);
-
-      // ✅ keep your word count logic
-      const text = newValue
-        .map((node: any) =>
-          Array.isArray(node.children)
-            ? node.children.map((child: any) => child?.text ?? "").join("")
-            : "",
-        )
-        .join(" ");
-
-      const words = text.trim().split(/\s+/).filter(Boolean);
-      onWordCountChange?.(words.length);
-
-      // ✅ update bubble menu each change (like reference)
       updateBubbleMenu();
     },
-    [onWordCountChange, updateBubbleMenu],
+    [updateBubbleMenu]
   );
 
-  // Optional: keyboard shortcuts for marks (like reference)
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
-      if (!event.ctrlKey && !event.metaKey) return;
+      if (!event.ctrlKey && !event.metaKey) {
+        return;
+      }
 
       switch (event.key) {
-        case "b":
+        case "b": {
           event.preventDefault();
-          Editor.addMark(editor, "bold", true);
+          toggleMark(editor, "bold");
           break;
-        case "i":
+        }
+        case "i": {
           event.preventDefault();
-          Editor.addMark(editor, "italic", true);
+          toggleMark(editor, "italic");
           break;
-        case "u":
+        }
+        case "u": {
           event.preventDefault();
-          Editor.addMark(editor, "underline", true);
+          toggleMark(editor, "underline");
           break;
+        }
+        case "z": {
+          if (event.shiftKey) {
+            event.preventDefault();
+            HistoryEditor.redo(editor);
+          } else {
+            event.preventDefault();
+            HistoryEditor.undo(editor);
+          }
+          break;
+        }
       }
     },
-    [editor],
+    [editor]
   );
 
   return (
-    <Card className="shadow-xl border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
-      <CardHeader className="pb-4">
-        <CardTitle className="text-xl font-semibold flex items-center gap-2">
-          <Type className="h-5 w-5" />
-          Editor
-        </CardTitle>
-        <Slate
-          editor={editor}
-          initialValue={initialEditorValue}
-          onChange={handleChange}
-        >
-          <EditorToolbar />
+    <div className="max-w-4xl mx-auto">
+      {/* Editor Container */}
+      <div className="relative bg-zinc-900/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-zinc-800/50 overflow-hidden">
+        {/* Decorative gradient border effect */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
-          <CardContent className="pt-4 px-0">
-            <div className="relative border rounded-lg p-6 min-h-100 bg-background/50 focus-within:bg-background transition-colors duration-200 overflow-y-auto">
-              <Editable
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-                placeholder="Start writing your content here..."
-                className="outline-none min-h-87.5 max-h-100 overflow-y-auto prose prose-lg max-w-none
-                  prose-headings:text-foreground 
-                  prose-p:text-foreground 
-                  prose-blockquote:text-muted-foreground
-                  prose-strong:text-foreground
-                  prose-em:text-foreground"
-                spellCheck
-                onKeyDown={handleKeyDown}
-                onMouseUp={updateBubbleMenu}
-                onKeyUp={updateBubbleMenu}
+        {/* Toolbar */}
+        <Toolbar editor={editor} onAddComment={handleAddComment} />
+
+        {/* Editor Content */}
+        <div ref={editorContainerRef} className="relative p-8 sm:p-12 min-h-[500px]">
+          <Slate
+            editor={editor}
+            initialValue={value}
+            onChange={handleChange}
+          >
+            <Editable
+              className="outline-none min-h-[400px] text-zinc-200 leading-relaxed text-lg selection:bg-violet-500/30"
+              renderElement={Element}
+              renderLeaf={Leaf}
+              onKeyDown={handleKeyDown}
+              placeholder="Start writing something amazing..."
+              spellCheck
+              autoFocus
+            />
+
+            {/* Selection Bubble Menu with Comment Option */}
+            {showBubbleMenu && (
+              <BubbleMenu
+                ref={bubbleMenuRef}
+                editor={editor}
+                position={bubbleMenuPosition}
+                onAddComment={handleAddComment}
               />
-            </div>
-          </CardContent>
-        </Slate>
-      </CardHeader>
-    </Card>
+            )}
+          </Slate>
+        </div>
+
+        {/* Footer */}
+        <EditorFooter />
+      </div>
+    </div>
   );
-};
+}

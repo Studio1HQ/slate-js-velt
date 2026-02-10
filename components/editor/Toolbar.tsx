@@ -1,161 +1,195 @@
-"use client"
-
-import React from "react"
-import { useSlate } from "slate-react"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import React from "react";
+import { HistoryEditor } from "slate-history";
 import {
     Bold,
     Italic,
     Underline,
+    Strikethrough,
     AlignLeft,
     AlignCenter,
     AlignRight,
+    AlignJustify,
+    Heading1,
+    Heading2,
+    Heading3,
     List,
     ListOrdered,
     Quote,
-    Save,
-    Download,
-    LucideIcon,
-} from "lucide-react"
-import { toggleMark, isMarkActive, toggleBlock, isBlockActive, toggleAlign } from "./utils"
-import type { CustomElement } from "./types"
+    Undo,
+    Redo,
+    MessageSquarePlus,
+} from "lucide-react";
+import { ToolbarButton, ToolbarDivider } from "./ToolbarButton";
+import {
+    isMarkActive,
+    toggleMark,
+    isBlockActive,
+    toggleBlock,
+    isAlignmentActive,
+    toggleAlignment
+} from "./utils";
+import type { CustomEditor } from "./types";
 
-interface ToolbarButtonProps {
-    active: boolean
-    onMouseDown: (event: React.MouseEvent) => void
-    icon: LucideIcon
-    tooltip: string
+interface ToolbarProps {
+    editor: CustomEditor;
+    onAddComment: () => void;
 }
 
-const ToolbarButton = ({ active, onMouseDown, icon: Icon, tooltip }: ToolbarButtonProps) => (
-    <Button
-        variant={active ? "default" : "ghost"}
-        size="sm"
-        onMouseDown={onMouseDown}
-        className={`h-9 w-9 p-0 transition-all duration-200 ${active
-            ? "bg-primary text-primary-foreground shadow-sm"
-            : "hover:bg-muted hover:scale-105"
-            }`}
-        title={tooltip}
-    >
-        <Icon className="h-4 w-4" />
-    </Button>
-)
-
-interface MarkButtonProps {
-    format: string
-    icon: LucideIcon
-    tooltip: string
-}
-
-const MarkButton = ({ format, icon, tooltip }: MarkButtonProps) => {
-    const editor = useSlate()
+export const Toolbar = ({ editor, onAddComment }: ToolbarProps) => {
     return (
-        <ToolbarButton
-            active={isMarkActive(editor, format)}
-            onMouseDown={(event) => {
-                event.preventDefault()
-                toggleMark(editor, format)
-            }}
-            icon={icon}
-            tooltip={tooltip}
-        />
-    )
-}
+        <div className="relative border-b border-zinc-800/50 bg-zinc-900/90 backdrop-blur-sm px-4 py-3">
+            <div className="flex items-center gap-1 flex-wrap">
+                {/* Text Formatting */}
+                <div className="flex items-center gap-0.5">
+                    <ToolbarButton
+                        active={isMarkActive(editor, "bold")}
+                        onMouseDown={() => toggleMark(editor, "bold")}
+                        title="Bold (Ctrl+B)"
+                    >
+                        <Bold size={18} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        active={isMarkActive(editor, "italic")}
+                        onMouseDown={() => toggleMark(editor, "italic")}
+                        title="Italic (Ctrl+I)"
+                    >
+                        <Italic size={18} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        active={isMarkActive(editor, "underline")}
+                        onMouseDown={() => toggleMark(editor, "underline")}
+                        title="Underline (Ctrl+U)"
+                    >
+                        <Underline size={18} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        active={isMarkActive(editor, "strikethrough")}
+                        onMouseDown={() => toggleMark(editor, "strikethrough")}
+                        title="Strikethrough"
+                    >
+                        <Strikethrough size={18} />
+                    </ToolbarButton>
+                </div>
 
-interface BlockButtonProps {
-    format: CustomElement["type"]
-    icon: LucideIcon
-    tooltip: string
-}
+                <ToolbarDivider />
 
-const BlockButton = ({ format, icon, tooltip }: BlockButtonProps) => {
-    const editor = useSlate()
-    return (
-        <ToolbarButton
-            active={isBlockActive(editor, format)}
-            onMouseDown={(event) => {
-                event.preventDefault()
-                toggleBlock(editor, format)
-            }}
-            icon={icon}
-            tooltip={tooltip}
-        />
-    )
-}
+                {/* Headings */}
+                <div className="flex items-center gap-0.5">
+                    <ToolbarButton
+                        active={isBlockActive(editor, "heading")}
+                        onMouseDown={() => toggleBlock(editor, "heading")}
+                        title="Heading 1"
+                    >
+                        <Heading1 size={18} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        active={isBlockActive(editor, "heading-two")}
+                        onMouseDown={() => toggleBlock(editor, "heading-two")}
+                        title="Heading 2"
+                    >
+                        <Heading2 size={18} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        active={isBlockActive(editor, "heading-three")}
+                        onMouseDown={() => toggleBlock(editor, "heading-three")}
+                        title="Heading 3"
+                    >
+                        <Heading3 size={18} />
+                    </ToolbarButton>
+                </div>
 
-interface AlignButtonProps {
-    align: CustomElement["align"]
-    icon: LucideIcon
-    tooltip: string
-}
+                <ToolbarDivider />
 
-const AlignButton = ({ align, icon, tooltip }: AlignButtonProps) => {
-    const editor = useSlate()
-    return (
-        <ToolbarButton
-            active={false}
-            onMouseDown={(event) => {
-                event.preventDefault()
-                toggleAlign(editor, align)
-            }}
-            icon={icon}
-            tooltip={tooltip}
-        />
-    )
-}
+                {/* Alignment */}
+                <div className="flex items-center gap-0.5">
+                    <ToolbarButton
+                        active={isAlignmentActive(editor, "left")}
+                        onMouseDown={() => toggleAlignment(editor, "left")}
+                        title="Align Left"
+                    >
+                        <AlignLeft size={18} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        active={isAlignmentActive(editor, "center")}
+                        onMouseDown={() => toggleAlignment(editor, "center")}
+                        title="Align Center"
+                    >
+                        <AlignCenter size={18} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        active={isAlignmentActive(editor, "right")}
+                        onMouseDown={() => toggleAlignment(editor, "right")}
+                        title="Align Right"
+                    >
+                        <AlignRight size={18} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        active={isAlignmentActive(editor, "justify")}
+                        onMouseDown={() => toggleAlignment(editor, "justify")}
+                        title="Justify"
+                    >
+                        <AlignJustify size={18} />
+                    </ToolbarButton>
+                </div>
 
+                <ToolbarDivider />
 
-export const EditorToolbar = () => {
-    return (
-        <div className="flex flex-wrap items-center gap-1 p-3 bg-muted/30 rounded-lg border">
-            {/* Text formatting */}
-            <div className="flex items-center gap-1 mr-3">
-                <MarkButton format="bold" icon={Bold} tooltip="Bold" />
-                <MarkButton format="italic" icon={Italic} tooltip="Italic" />
-                <MarkButton format="underline" icon={Underline} tooltip="Underline" />
-            </div>
+                {/* Lists & Quote */}
+                <div className="flex items-center gap-0.5">
+                    <ToolbarButton
+                        active={isBlockActive(editor, "bulleted-list")}
+                        onMouseDown={() => toggleBlock(editor, "bulleted-list")}
+                        title="Bullet List"
+                    >
+                        <List size={18} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        active={isBlockActive(editor, "numbered-list")}
+                        onMouseDown={() => toggleBlock(editor, "numbered-list")}
+                        title="Numbered List"
+                    >
+                        <ListOrdered size={18} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        active={isBlockActive(editor, "block-quote")}
+                        onMouseDown={() => toggleBlock(editor, "block-quote")}
+                        title="Quote"
+                    >
+                        <Quote size={18} />
+                    </ToolbarButton>
+                </div>
 
-            <Separator orientation="vertical" className="h-6 mx-1" />
+                <ToolbarDivider />
 
-            {/* Alignment */}
-            <div className="flex items-center gap-1 mr-3">
-                <AlignButton align="left" icon={AlignLeft} tooltip="Align Left" />
-                <AlignButton align="center" icon={AlignCenter} tooltip="Align Center" />
-                <AlignButton align="right" icon={AlignRight} tooltip="Align Right" />
-            </div>
+                {/* Undo/Redo */}
+                <div className="flex items-center gap-0.5">
+                    <ToolbarButton
+                        onMouseDown={() => HistoryEditor.undo(editor)}
+                        title="Undo (Ctrl+Z)"
+                    >
+                        <Undo size={18} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        onMouseDown={() => HistoryEditor.redo(editor)}
+                        title="Redo (Ctrl+Shift+Z)"
+                    >
+                        <Redo size={18} />
+                    </ToolbarButton>
+                </div>
 
-            <Separator orientation="vertical" className="h-6 mx-1" />
+                <div className="flex-1" />
 
-            {/* Block types */}
-            <div className="flex items-center gap-1 mr-3">
-                <BlockButton format="list-item" icon={List} tooltip="Bullet List" />
-                <BlockButton format="numbered-list-item" icon={ListOrdered} tooltip="Numbered List" />
-                <BlockButton format="quote" icon={Quote} tooltip="Quote" />
-            </div>
-
-            <Separator orientation="vertical" className="h-6 mx-1" />
-
-            {/* Actions */}
-            <div className="flex items-center gap-1">
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-9 px-3 hover:bg-muted hover:scale-105 transition-all duration-200"
+                {/* Add Comment Button */}
+                <ToolbarButton
+                    onMouseDown={onAddComment}
+                    title="Add Comment"
                 >
-                    <Save className="h-4 w-4 mr-1" />
-                    Save
-                </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-9 px-3 hover:bg-muted hover:scale-105 transition-all duration-200"
-                >
-                    <Download className="h-4 w-4 mr-1" />
-                    Export
-                </Button>
+                    <div className="flex items-center gap-2">
+                        <MessageSquarePlus size={18} />
+                        <span className="text-sm font-medium hidden sm:inline">Comment</span>
+                    </div>
+                </ToolbarButton>
             </div>
         </div>
-    )
-}
+    );
+};

@@ -2,9 +2,11 @@ import { BaseEditor } from "slate";
 import { ReactEditor } from "slate-react";
 import { HistoryEditor } from "slate-history";
 
+export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
+
 export type CustomElement = {
-  type: "paragraph" | "heading" | "quote" | "list-item" | "numbered-list-item";
-  align?: "left" | "center" | "right";
+  type: string;
+  align?: "left" | "center" | "right" | "justify";
   children: CustomText[];
 };
 
@@ -13,11 +15,13 @@ export type CustomText = {
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
+  strikethrough?: boolean;
+  heading?: "h1" | "h2" | "h3";
 };
 
 declare module "slate" {
   interface CustomTypes {
-    Editor: BaseEditor & ReactEditor & HistoryEditor;
+    Editor: CustomEditor;
     Element: CustomElement;
     Text: CustomText;
   }
