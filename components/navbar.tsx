@@ -21,6 +21,7 @@ import {
   HelpCircle,
   Mail,
   Sparkles,
+  Pen,
 } from "lucide-react"
 import { names, userIds, useUserStore } from "@/helper/userdb"
 import useTheme, { ThemeToggleButton } from "./use-theme"
@@ -113,22 +114,13 @@ export function Navbar() {
       <nav className="sticky top-0 z-0 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-300" />
-                <div className="relative bg-gradient-to-r from-blue-600 to-indigo-600 p-2.5 rounded-xl shadow-lg">
-                  <FileText className="h-5 w-5 text-white" />
-                </div>
+            <div className="flex items-center gap-2.5">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-900 dark:bg-white">
+                <Pen className="h-3.5 w-3.5 text-white dark:text-zinc-900" strokeWidth={2.5} />
               </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  TextCraft
-                </span>
-                <span className="text-[10px] text-muted-foreground font-medium tracking-wider uppercase hidden sm:block">
-                  Rich Text Editor
-                </span>
-              </div>
+              <span className="text-[15px] font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+                TextCraft
+              </span>
             </div>
 
             {/* Desktop Navigation */}
