@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import { createEditor, Descendant, Editor } from "slate";
+import { createEditor, Descendant } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import { withHistory, HistoryEditor } from "slate-history";
 import { useCommentAnnotations } from "@veltdev/react";
@@ -31,12 +31,6 @@ import { initialContent } from "./constants";
 
 export function RichTextEditor() {
   const [value, setValue] = useState<Descendant[]>(initialContent);
-  const [showBubbleMenu, setShowBubbleMenu] = useState(false);
-  const [bubbleMenuPosition, setBubbleMenuPosition] = useState({
-    top: 0,
-    left: 0,
-  });
-  const bubbleMenuRef = useRef<HTMLDivElement>(null);
   const editorContainerRef = useRef<HTMLDivElement>(null);
 
   const editor = useMemo(() => {
@@ -57,44 +51,14 @@ export function RichTextEditor() {
   const handleAddComment = useCallback(() => {
     if (editor) {
       addComment({ editor });
-      setShowBubbleMenu(false);
     }
-  }, [editor]);
-
-  const updateBubbleMenu = useCallback(() => {
-    const { selection } = editor;
-
-    if (!selection || Editor.string(editor, selection) === "") {
-      setShowBubbleMenu(false);
-      return;
-    }
-
-    const domSelection = window.getSelection();
-    if (!domSelection || domSelection.rangeCount === 0) {
-      setShowBubbleMenu(false);
-      return;
-    }
-
-    const domRange = domSelection.getRangeAt(0);
-    const rect = domRange.getBoundingClientRect();
-
-    const menuHeight = bubbleMenuRef.current?.offsetHeight || 50;
-    const menuWidth = bubbleMenuRef.current?.offsetWidth || 220;
-
-    setBubbleMenuPosition({
-      top: rect.top + window.scrollY - menuHeight - 10,
-      left: rect.left + window.scrollX + rect.width / 2 - menuWidth / 2,
-    });
-
-    setShowBubbleMenu(true);
   }, [editor]);
 
   const handleChange = useCallback(
     (newValue: Descendant[]) => {
       setValue(newValue);
-      updateBubbleMenu();
     },
-    [updateBubbleMenu]
+    []
   );
 
   const handleKeyDown = useCallback(
@@ -162,14 +126,7 @@ export function RichTextEditor() {
             />
 
             {/* Selection Bubble Menu with Comment Option */}
-            {showBubbleMenu && (
-              <BubbleMenu
-                ref={bubbleMenuRef}
-                editor={editor}
-                position={bubbleMenuPosition}
-                onAddComment={handleAddComment}
-              />
-            )}
+            <BubbleMenu />
           </Slate>
         </div>
 
