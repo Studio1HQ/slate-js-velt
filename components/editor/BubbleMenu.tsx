@@ -20,7 +20,7 @@ export const BubbleMenu = forwardRef<HTMLDivElement, BubbleMenuProps>(
                     left: `${position.left}px`,
                 }}
             >
-                <div className="flex items-center gap-1 px-2 py-1.5 bg-zinc-800/95 backdrop-blur-xl rounded-xl shadow-2xl border border-zinc-700/50">
+                <div className="flex items-center gap-1 px-2 py-1.5 bg-white/95 dark:bg-zinc-800/95 backdrop-blur-xl rounded-xl shadow-2xl border border-zinc-200/50 dark:border-zinc-700/50">
                     {/* Quick format buttons */}
                     <button
                         onMouseDown={(e) => {
@@ -28,8 +28,8 @@ export const BubbleMenu = forwardRef<HTMLDivElement, BubbleMenuProps>(
                             toggleMark(editor, "bold");
                         }}
                         className={`p-2 rounded-lg transition-all ${isMarkActive(editor, "bold")
-                                ? "bg-violet-500/30 text-violet-300"
-                                : "text-zinc-400 hover:text-white hover:bg-zinc-700/50"
+                            ? "bg-violet-500/20 dark:bg-violet-500/30 text-violet-600 dark:text-violet-300"
+                            : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-700/50"
                             }`}
                         title="Bold"
                     >
@@ -41,8 +41,8 @@ export const BubbleMenu = forwardRef<HTMLDivElement, BubbleMenuProps>(
                             toggleMark(editor, "italic");
                         }}
                         className={`p-2 rounded-lg transition-all ${isMarkActive(editor, "italic")
-                                ? "bg-violet-500/30 text-violet-300"
-                                : "text-zinc-400 hover:text-white hover:bg-zinc-700/50"
+                            ? "bg-violet-500/20 dark:bg-violet-500/30 text-violet-600 dark:text-violet-300"
+                            : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-700/50"
                             }`}
                         title="Italic"
                     >
@@ -54,15 +54,15 @@ export const BubbleMenu = forwardRef<HTMLDivElement, BubbleMenuProps>(
                             toggleMark(editor, "underline");
                         }}
                         className={`p-2 rounded-lg transition-all ${isMarkActive(editor, "underline")
-                                ? "bg-violet-500/30 text-violet-300"
-                                : "text-zinc-400 hover:text-white hover:bg-zinc-700/50"
+                            ? "bg-violet-500/20 dark:bg-violet-500/30 text-violet-600 dark:text-violet-300"
+                            : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-700/50"
                             }`}
                         title="Underline"
                     >
                         <Underline size={16} />
                     </button>
 
-                    <div className="w-px h-5 bg-zinc-700 mx-1" />
+                    <div className="w-px h-5 bg-zinc-300 dark:bg-zinc-700 mx-1" />
 
                     {/* Comment Button - Primary action */}
                     <button
@@ -79,7 +79,7 @@ export const BubbleMenu = forwardRef<HTMLDivElement, BubbleMenuProps>(
                 </div>
 
                 {/* Arrow pointer */}
-                <div className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-zinc-800/95" />
+                <div className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-white/95 dark:border-t-zinc-800/95" />
             </div>
         );
     }

@@ -17,7 +17,7 @@ export const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
     }
 
     if (leaf.strikethrough) {
-        processedChildren = <s className="line-through text-zinc-500">{processedChildren}</s>;
+        processedChildren = <s className="line-through text-zinc-400 dark:text-zinc-500">{processedChildren}</s>;
     }
 
     return <span {...attributes}>{processedChildren}</span>;

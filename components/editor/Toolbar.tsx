@@ -37,7 +37,7 @@ interface ToolbarProps {
 
 export const Toolbar = ({ editor, onAddComment }: ToolbarProps) => {
     return (
-        <div className="relative border-b border-zinc-800/50 bg-zinc-900/90 backdrop-blur-sm px-4 py-3">
+        <div className="relative border-b border-zinc-200/50 dark:border-zinc-800/50 bg-gray-50/90 dark:bg-zinc-900/90 backdrop-blur-sm px-4 py-3">
             <div className="flex items-center gap-1 flex-wrap">
                 {/* Text Formatting */}
                 <div className="flex items-center gap-0.5">

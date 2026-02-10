@@ -1,15 +1,13 @@
 "use client";
-
-import React, { useState } from "react";
 import { Navbar } from "@/components/navbar";
 import { Badge } from "@/components/ui/badge";
 import { FileText, Sparkles } from "lucide-react";
 import { RichTextEditor } from "@/components/editor";
 import { VeltComments } from "@veltdev/react";
+import useTheme from "@/components/use-theme";
 
 export default function Home() {
-  const [wordCount, setWordCount] = useState(70);
-
+  const { theme } = useTheme()
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       <Navbar />
@@ -32,13 +30,12 @@ export default function Home() {
               <Sparkles className="h-3 w-3" />
               Production Ready
             </Badge>
-            <Badge variant="outline">{wordCount} words</Badge>
           </div>
         </div>
 
         {/* Editor */}
-        <RichTextEditor onWordCountChange={setWordCount} />
-        <VeltComments textMode={false} />
+        <RichTextEditor />
+        <VeltComments textMode={false} darkMode={theme === "dark"} />
 
         {/* Footer */}
         <div className="text-center mt-8 text-muted-foreground">
