@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Editor, Range } from "slate";
 import { useSlate, useFocused } from "slate-react";
@@ -13,6 +13,11 @@ export const BubbleMenu = () => {
     const ref = useRef<HTMLDivElement | null>(null);
     const editor = useSlate() as CustomEditor;
     const inFocus = useFocused();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         const el = ref.current;
@@ -49,6 +54,8 @@ export const BubbleMenu = () => {
         e.preventDefault();
         addComment({ editor });
     };
+
+    if (!mounted) return null;
 
     return createPortal(
         <div
