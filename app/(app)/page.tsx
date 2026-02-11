@@ -13,25 +13,35 @@ export default function Home() {
       <Navbar />
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-3 rounded-2xl shadow-lg">
-              <FileText className="h-8 w-8 text-white" />
-            </div>
+        <div className="mb-10 text-center">
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-indigo-500/10 to-blue-500/10 border border-indigo-500/20 mb-4">
+            <span className="text-sm font-medium text-indigo-600">
+              Velt Collaboration Demo
+            </span>
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-            Rich Text Editor Demo
+
+          <h1 className="text-5xl font-extrabold tracking-tight leading-tight bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+            Collaborative Rich Text Editor
           </h1>
-          <p className="text-muted-foreground text-lg">
-            Powered by Slate.js, Radix UI, and Tailwind CSS
+
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+            A real-time editing experience built with Slate.js and powered by Velt’s
+            collaboration infrastructure.
           </p>
-          <div className="flex items-center justify-center gap-2 mt-4">
-            <Badge variant="secondary" className="flex items-center gap-1">
-              <Sparkles className="h-3 w-3" />
-              Production Ready
-            </Badge>
+
+          <div className="mt-6 flex justify-center gap-3">
+            <span className="px-3 py-1 rounded-md text-sm bg-indigo-600/10 text-indigo-600 border border-indigo-600/20">
+              Real-time Sync
+            </span>
+            <span className="px-3 py-1 rounded-md text-sm bg-blue-600/10 text-blue-600 border border-blue-600/20">
+              Cursor Presence
+            </span>
+            <span className="px-3 py-1 rounded-md text-sm bg-sky-600/10 text-sky-600 border border-sky-600/20">
+              Slate.js
+            </span>
           </div>
         </div>
+
 
         {/* Editor */}
         <RichTextEditor />

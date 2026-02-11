@@ -23,6 +23,17 @@ import {
   Sparkles,
   Pen,
 } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ChevronDown } from "lucide-react";
+
 import { names, userIds, useUserStore } from "@/helper/userdb"
 import useTheme, { ThemeToggleButton } from "./use-theme"
 
@@ -108,7 +119,71 @@ export function Navbar() {
     { name: "Profile", icon: User, href: "/profile" },
     { name: "Settings", icon: Settings, href: "/settings" },
   ]
-
+  const UserSwitcher = ({ compact = false }: { compact?: boolean }) => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          size="sm"
+          className={`flex items-center space-x-2 bg-white text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-200 dark:border dark:border-white/30 dark:!bg-[#121212] dark:hover:!bg-gray-700 ${compact ? "h-9 w-full justify-start" : "h-8"}`}
+        >
+          <Avatar className="w-5 h-5">
+            <AvatarImage
+              src={user?.photoUrl || "https://via.placeholder.com/100"}
+              alt={user?.displayName || "User"}
+            />
+            <AvatarFallback className="text-xs">
+              {user?.displayName}
+            </AvatarFallback>
+          </Avatar>
+          <span className="text-sm truncate max-w-[100px]">
+            {user?.displayName}
+          </span>
+          <ChevronDown size={14} />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        className="w-64 bg-white text-gray-600 dark:text-gray-400 dark:bg-[#121212] dark:border dark:border-white/30"
+      >
+        <DropdownMenuLabel>Select User</DropdownMenuLabel>
+        <DropdownMenuSeparator className="dark:bg-white/40" />
+        {predefinedUsers.map((currentUser) => (
+          <DropdownMenuItem
+            key={currentUser.uid}
+            onClick={() => setUser(currentUser)}
+            className="flex items-center space-x-3 p-3 cursor-pointer hover:!bg-gray-100 dark:hover:!bg-gray-700"
+          >
+            <Avatar className="w-8 h-8">
+              <AvatarImage
+                src={currentUser.photoUrl}
+                alt={currentUser.displayName}
+              />
+              <AvatarFallback className="text-xs">
+                {currentUser.displayName}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-medium text-gray-900 dark:text-white/70">
+                {currentUser.displayName}
+              </div>
+              <div className="text-xs text-gray-500 dark:text-white/60">
+                {currentUser.email}
+              </div>
+            </div>
+            {user?.uid === currentUser.uid && (
+              <div className="w-2 h-2 bg-blue-600 rounded-full" />
+            )}
+          </DropdownMenuItem>
+        ))}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="flex items-center space-x-2 text-blue-600 hover:dark:bg-[#515881]">
+          <User size={16} />
+          <span className="hover:dark:text-white/70">Manage Users</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
   return (
     <>
       <nav className="sticky top-0 z-0 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
@@ -152,6 +227,7 @@ export function Navbar() {
 
               {/* Velt Tools */}
               <div className="flex items-center gap-1">
+                <UserSwitcher />
                 <VeltNotificationsTool darkMode={theme === "dark"} />
                 <VeltSidebarButton darkMode={theme === "dark"} />
               </div>
