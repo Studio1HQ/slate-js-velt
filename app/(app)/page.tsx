@@ -20,6 +20,7 @@ export default function Home() {
             </span>
           </div>
 
+
           <h1 className="text-5xl font-extrabold tracking-tight leading-tight bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
             Collaborative Rich Text Editor
           </h1>
