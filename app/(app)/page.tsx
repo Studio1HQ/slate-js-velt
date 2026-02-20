@@ -9,19 +9,19 @@ import useTheme from "@/components/use-theme";
 export default function Home() {
   const { theme } = useTheme()
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-zinc-50 via-emerald-50/30 to-teal-50/30 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
       <Navbar />
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="mb-10 text-center">
-          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-indigo-500/10 to-blue-500/10 border border-indigo-500/20 mb-4">
-            <span className="text-sm font-medium text-indigo-600">
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 mb-4">
+            <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
               Velt Collaboration Demo
             </span>
           </div>
 
 
-          <h1 className="text-5xl font-extrabold tracking-tight leading-tight bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-extrabold tracking-tight leading-tight bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
             Collaborative Rich Text Editor
           </h1>
 
@@ -31,13 +31,13 @@ export default function Home() {
           </p>
 
           <div className="mt-6 flex justify-center gap-3">
-            <span className="px-3 py-1 rounded-md text-sm bg-indigo-600/10 text-indigo-600 border border-indigo-600/20">
+            <span className="px-3 py-1 rounded-md text-sm bg-emerald-600/10 text-emerald-600 border border-emerald-600/20 dark:text-emerald-400 dark:border-emerald-400/20">
               Real-time Sync
             </span>
-            <span className="px-3 py-1 rounded-md text-sm bg-blue-600/10 text-blue-600 border border-blue-600/20">
+            <span className="px-3 py-1 rounded-md text-sm bg-teal-600/10 text-teal-600 border border-teal-600/20 dark:text-teal-400 dark:border-teal-400/20">
               Cursor Presence
             </span>
-            <span className="px-3 py-1 rounded-md text-sm bg-sky-600/10 text-sky-600 border border-sky-600/20">
+            <span className="px-3 py-1 rounded-md text-sm bg-lime-600/10 text-lime-600 border border-lime-600/20 dark:text-lime-400 dark:border-lime-400/20">
               Slate.js
             </span>
           </div>

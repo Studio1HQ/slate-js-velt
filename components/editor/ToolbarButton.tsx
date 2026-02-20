@@ -22,7 +22,7 @@ export const ToolbarButton = ({
         className={`
       relative p-2.5 rounded-lg transition-all duration-200 ease-out
       ${active
-                ? "bg-gradient-to-br from-violet-500/20 dark:from-violet-500/30 to-purple-600/20 dark:to-purple-600/30 text-violet-600 dark:text-violet-300 shadow-[0_0_20px_rgba(139,92,246,0.15)] dark:shadow-[0_0_20px_rgba(139,92,246,0.3)]"
+                ? "bg-gradient-to-br from-emerald-500/20 dark:from-emerald-500/30 to-teal-600/20 dark:to-teal-600/30 text-emerald-600 dark:text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.15)] dark:shadow-[0_0_20px_rgba(16,185,129,0.3)]"
                 : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-200/50 dark:hover:bg-white/10"
             }
       hover:scale-105 active:scale-95

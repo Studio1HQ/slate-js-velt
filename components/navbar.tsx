@@ -172,12 +172,12 @@ export function Navbar() {
               </div>
             </div>
             {user?.uid === currentUser.uid && (
-              <div className="w-2 h-2 bg-blue-600 rounded-full" />
+              <div className="w-2 h-2 bg-emerald-600 rounded-full" />
             )}
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex items-center space-x-2 text-blue-600 hover:dark:bg-[#515881]">
+        <DropdownMenuItem className="flex items-center space-x-2 text-emerald-600 hover:dark:bg-[#1a2e2a]">
           <User size={16} />
           <span className="hover:dark:text-white/70">Manage Users</span>
         </DropdownMenuItem>
@@ -273,11 +273,11 @@ export function Navbar() {
                   <div className="flex flex-col h-full">
                     {/* Mobile Header */}
                     <div className="flex items-center gap-3 p-6 border-b bg-muted/30">
-                      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-2.5 rounded-xl">
+                      <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-2.5 rounded-xl">
                         <FileText className="h-5 w-5 text-white" />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                        <span className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
                           TextCraft
                         </span>
                         <span className="text-xs text-muted-foreground">
