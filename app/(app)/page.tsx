@@ -1,10 +1,12 @@
 "use client";
-import { Navbar } from "@/components/navbar";
+import dynamic from "next/dynamic";
 import { Badge } from "@/components/ui/badge";
 import { FileText, Sparkles } from "lucide-react";
-import { RichTextEditor } from "@/components/editor";
-import { VeltComments } from "@veltdev/react";
 import useTheme from "@/components/use-theme";
+
+const Navbar = dynamic(() => import("@/components/navbar").then(mod => mod.Navbar), { ssr: false });
+const RichTextEditor = dynamic(() => import("@/components/editor").then(mod => mod.RichTextEditor), { ssr: false });
+const VeltComments = dynamic(() => import("@veltdev/react").then(mod => mod.VeltComments), { ssr: false });
 
 export default function Home() {
   const { theme } = useTheme()
