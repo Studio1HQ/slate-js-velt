@@ -1,242 +1,136 @@
-# TextCraft - Collaborative Rich Text Editor
+<div align="center">
 
-A beautiful, minimal collaborative rich text editor built with Slate.js, Velt, Next.js, and modern web technologies. Features real-time presence, inline commenting, and CRDT-powered collaboration.
+<img src="https://raw.githubusercontent.com/Studio1HQ/Studio1HQ/main/assets/banners/slate-js-velt.webp" alt="Slate.js Editor with Velt Comments: A Slate.js rich text editor with inline comments, presence and notifications" width="100%" />
 
-![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black)
-![React](https://img.shields.io/badge/React-19.2.3-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-blue)
-![Slate.js](https://img.shields.io/badge/Slate.js-0.103-purple)
-![Velt](https://img.shields.io/badge/Velt-4.7.8-green)
-![License](https://img.shields.io/badge/license-MIT-green)
+<br />
+<br />
+
+# Slate.js Editor with Velt Comments
+
+### A Slate.js rich text editor with inline comments, presence and notifications
+
+TextCraft is a Next.js rich text editor built on Slate.js. Velt adds inline comments on selected text, a comments sidebar, presence and notifications.
+
+<br />
+
+[![Built by Studio1](https://img.shields.io/badge/Built_by_Studio1-f97316?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAgMTYwIiBmaWxsPSJub25lIj48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTAgMzVDMCAxNi42ODA3IDE0LjA3NDQgMS42NDg0NCAzMiAwLjEyNjk1M1YxNDFINTEuMDUyM0M1Mi40MzA4IDEzNy4zNDQgNTQuNzQ0NiAxMzMuNjg5IDU3Ljk5MzggMTMwLjAzM0M2MS4xNDQ2IDEyNi41MDggNjQuNjg5MiAxMjMuNDQgNjguNjI3NyAxMjAuODI5QzcyLjU2NjIgMTE4LjM0OSA3Ni4zNTY5IDExNi43ODIgODAgMTE2LjEyOVY4Ni43NTQ0Qzc1LjQ3MDggODcuOTI5MiA3MS4zODQ2IDg5LjY5MTkgNjcuNzQxNSA5Mi4wNDE1QzY0IDk0LjUyMjUgNjAuNzUwOCA5Ny40NiA1Ny45OTM4IDEwMC44NTRDNTYuNTM0NSAxMDIuNzIgNTUuMjU0NSAxMDQuNjU5IDU0LjE1MzkgMTA2LjY3MVYwSDEyNUMxNDQuMzMgMCAxNjAgMTUuNjY5OSAxNjAgMzVWMTI1QzE2MCAxNDQuMzMgMTQ0LjMzIDE2MCAxMjUgMTYwSDEyNFYxOEgxMDQuOTQ4QzEwMy41NjkgMjEuNjgxNiAxMDEuMjU1IDI1LjM2MjggOTguMDA2MiAyOS4wNDQ0Qzk0Ljg1NTQgMzIuNTk0MiA5MS4zMTA4IDM1LjY4NDEgODcuMzcyMyAzOC4zMTRDODMuNDMzOCA0MC44MTIgNzkuNjQzMSA0Mi4zODk2IDc2IDQzLjA0NzRWNzIuNjMwNEM4MC41MjkyIDcxLjQ0NzMgODQuNjE1NCA2OS42NzI0IDg4LjI1ODUgNjcuMzA1N0M5MiA2NC44MDc2IDk1LjI0OTIgNjEuODQ5MSA5OC4wMDYyIDU4LjQzMDdDOTkuNDY1NSA1Ni41NTEzIDEwMC43NDUgNTQuNTk4NiAxMDEuODQ2IDUyLjU3MjNWMTYwSDM1QzE1LjY3IDE2MCAwIDE0NC4zMyAwIDEyNVYzNVoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4K)](https://studio1hq.com)
+[![Built with Velt](https://img.shields.io/badge/Built_with_Velt-141414?style=for-the-badge)](https://velt.dev)
+[![Live demo](https://img.shields.io/badge/Live_demo-1c1917?style=for-the-badge&logo=vercel&logoColor=white)](https://slatejs-doc-velt.vercel.app/)
+
+[Velt docs](https://docs.velt.dev) &nbsp;·&nbsp; [Velt](https://velt.dev) &nbsp;·&nbsp; [More examples](https://github.com/Studio1HQ) &nbsp;·&nbsp; [studio1hq.com](https://studio1hq.com)
+
+</div>
+
+<br />
+
+## Overview
+
+TextCraft is a minimal rich text editor built with Slate.js, Next.js and [Velt](https://velt.dev). Select text, add a comment from the floating bubble menu, and discuss it with other users in real time.
+
+It shows how to add Velt comments to a Slate.js editor with the `@veltdev/slate-velt-comments` package, plus presence, a comments sidebar and notifications in the navbar.
 
 ## Features
 
-### Rich Text Editor
+- **Inline comments on selected text**: The editor is wrapped with `withVeltComments`, and a bubble menu button starts a comment thread on the selection.
+- **Comments sidebar**: `VeltCommentsSidebar` and `VeltSidebarButton` list and manage all comments.
+- **Presence**: `VeltPresence` shows who is viewing the document.
+- **Notifications**: `VeltNotificationsTool` shows updates on comments and replies.
+- **Rich text editing**: Headings (H1 to H3), bulleted and numbered lists, block quotes, bold, italic, underline, strikethrough and text alignment, with undo and redo via `slate-history`.
+- **Keyboard shortcuts**: Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+Z and Ctrl+Shift+Z.
+- **Two demo users**: Switch between Nany (`user001`) and Mary (`user002`) from the top bar.
+- **Theme and layout**: Dark and light mode, responsive layout and a slide-out mobile menu.
 
-- **Slate.js Powered** - Production-grade rich text editing framework
-- **BubbleMenu** - Floating toolbar appears on text selection for quick formatting
-- **Full Toolbar** - Comprehensive formatting bar with all editing options
-- **Keyboard Shortcuts** - Ctrl+B (Bold), Ctrl+I (Italic), Ctrl+U (Underline), Ctrl+Z / Ctrl+Shift+Z (Undo/Redo)
+## Tech stack
 
-### Real-Time Collaboration (Velt)
+| Layer | Tool |
+| --- | --- |
+| Framework | [Next.js](https://nextjs.org) (App Router), [React](https://react.dev) 19, TypeScript |
+| Editor | [Slate.js](https://www.slatejs.org) |
+| Collaboration | [Velt](https://velt.dev) (`@veltdev/react`, `@veltdev/slate-velt-comments`) |
+| UI | [Tailwind CSS](https://tailwindcss.com) 4, [shadcn/ui](https://ui.shadcn.com), [Radix UI](https://www.radix-ui.com), [Lucide](https://lucide.dev) |
+| State | [Zustand](https://zustand-demo.pmnd.rs) |
+| Deployment | [Vercel](https://vercel.com) |
 
-- **Presence** - See who's currently viewing the document in real time
-- **Inline Comments** - Select text and add comments directly in the editor
-- **Popover Comments** - Contextual comment threads on selected text
-- **Comments Sidebar** - View and manage all comments in one place
-- **Notifications** - Real-time notifications for new comments and replies
-- **CRDT Support** - Conflict-free Replicated Data Types for seamless multi-user editing
-
-### CRDT (Conflict-free Replicated Data Types)
-
-The application uses **CRDT** through Velt for real-time collaborative editing. This ensures:
-
-- **Conflict-free merging** - Multiple users can edit simultaneously without conflicts
-- **Eventual consistency** - All users converge to the same document state
-- **Offline resilience** - Changes sync automatically when reconnected
-- **No data loss** - Every edit from every user is preserved
-
-### UI / UX
-
-- **Dark / Light Mode** - Toggle between themes with smooth transitions
-- **Responsive Design** - Works on desktop, tablet, and mobile
-- **Glassmorphism** - Modern frosted-glass aesthetic with backdrop blur
-- **Gradient Accents** - Violet-to-purple gradient for interactive elements
-- **Mobile Navigation** - Slide-out sheet menu for small screens
-
-### Modern Tech Stack
-
-- **React 19** - Latest React with hooks and concurrent features
-- **Next.js 16** - App Router, server components, and edge runtime
-- **TypeScript** - Full type safety across the codebase
-- **Tailwind CSS v4** - Modern utility-first styling with CSS variables
-- **Slate.js** - Highly customizable rich text editor framework
-- **Velt SDK** - Real-time collaboration (presence, comments, CRDT)
-- **@veltdev/slate-velt-comments** - Slate.js-specific Velt comment integration
-- **Zustand** - Lightweight, performant state management
-- **shadcn/ui** - Beautiful, accessible UI components
-- **Radix UI** - Unstyled, accessible component primitives
-- **Lucide React** - Clean, minimal icon library
-
-## Getting Started
+## Getting started
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 18 or later
 - npm or yarn
-- Velt API Key (sign up at [velt.dev](https://velt.dev))
+- A Velt API key from the [Velt console](https://console.velt.dev)
 
 ### Installation
 
-1. Clone the repository:
-
 ```bash
-git clone <repository-url>
+git clone https://github.com/Studio1HQ/slate-js-velt.git
 cd slate-js-velt
-```
-
-2. Install dependencies:
-
-```bash
 npm install
 ```
 
-3. Set up environment variables:
+### Environment variables
+
+Create a `.env` file in the project root.
+
+| Variable | Description |
+| --- | --- |
+| `NEXT_PUBLIC_VELT_ID` | Your Velt API key. |
 
 ```bash
-# Create .env file
 echo "NEXT_PUBLIC_VELT_ID=your_velt_api_key_here" > .env
 ```
 
-4. Start the development server:
+### Run
 
 ```bash
 npm run dev
 ```
 
-5. Open your browser and navigate to:
+Open [http://localhost:3000](http://localhost:3000). Other scripts: `npm run build`, `npm run start`, `npm run lint`.
 
-```
-http://localhost:3000
-```
+## How it works
 
-## Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-
-## Project Structure
-
-```
-├── app/
-│   ├── (app)/                    # App route group
-│   │   ├── layout.tsx            # VeltProvider + ThemeProvider wrapper
-│   │   └── page.tsx              # Main page with editor
-│   ├── hover/                    # Hover interaction routes
-│   ├── globals.css               # Global styles and Tailwind imports
-│   ├── layout.tsx                # Root layout (HTML, fonts)
-│   └── favicon.ico               # App favicon
-├── components/
-│   ├── editor/                   # Slate.js rich text editor
-│   │   ├── RichTextEditor.tsx    # Main editor with Velt comment integration
-│   │   ├── BubbleMenu.tsx        # Floating selection toolbar + comment button
-│   │   ├── Element.tsx           # Custom Slate element renderer (headings, lists, quotes)
-│   │   ├── Leaf.tsx              # Custom Slate leaf renderer (bold, italic, etc.)
-│   │   ├── Toolbar.tsx           # Main formatting toolbar
-│   │   ├── ToolbarButton.tsx     # Reusable toolbar button component
-│   │   ├── EditorFooter.tsx      # Editor footer info bar
-│   │   ├── constants.ts          # Initial editor content / sample data
-│   │   ├── types.ts              # TypeScript types (CustomEditor, CustomElement, CustomText)
-│   │   ├── utils.ts              # Editor utilities (toggleMark, toggleBlock, etc.)
-│   │   └── index.ts              # Barrel export
-│   ├── ui/                       # shadcn/ui components
-│   │   ├── badge.tsx             # Badge component
-│   │   ├── button.tsx            # Button with variants
-│   │   ├── card.tsx              # Card layout component
-│   │   ├── separator.tsx         # Visual separator
-│   │   └── sheet.tsx             # Slide-out sheet / drawer
-│   ├── navbar.tsx                # Navigation bar (Velt Presence, Notifications, Sidebar)
-│   └── use-theme.tsx             # Theme hook + ThemeProvider + toggle button
-├── helper/
-│   └── userdb.ts                 # Hardcoded users (Nany, Mary) + Zustand store
-├── lib/
-│   └── utils.ts                  # Utility functions (cn helper for Tailwind)
-├── public/                       # Static assets (SVGs)
-├── package.json                  # Dependencies and scripts
-├── tsconfig.json                 # TypeScript configuration
-├── next.config.ts                # Next.js configuration
-├── postcss.config.mjs            # PostCSS + Tailwind plugin
-└── eslint.config.mjs             # ESLint configuration
+```text
+app/(app)/layout.tsx          VeltProvider and ThemeProvider
+app/(app)/page.tsx            main page with the editor
+components/editor/            RichTextEditor, BubbleMenu, Toolbar, Element, Leaf, utils
+components/navbar.tsx         Velt presence, notifications, sidebar and user switcher
+helper/userdb.ts              hardcoded users and Zustand store
 ```
 
-## Key Features Explained
+- `RichTextEditor.tsx` builds the editor with `withVeltComments(withReact(withHistory(editor)))`.
+- `navbar.tsx` calls `client.identify(...)` for the selected user and sets the Velt document `slate-js-velt` (organization ID `organization_id`).
+- To try it: switch users from the top bar, select text and use the bubble menu to comment, open the sidebar to see all comments, and watch the other user's avatar in the navbar.
 
-### Rich Text Editor (Slate.js)
+## Resources
 
-- Powered by **Slate.js** - a completely customizable framework for building rich text editors
-- Custom element types: paragraphs, headings (H1–H3), bulleted lists, numbered lists, list items, block quotes
-- Custom leaf rendering: bold, italic, underline, strikethrough
-- Text alignment support: left, center, right, justify
-- Full undo/redo via `slate-history`
-- Extensible architecture using Slate plugins (`withReact`, `withHistory`, `withVeltComments`)
+- [Live demo](https://slatejs-doc-velt.vercel.app/): the deployed app.
+- [Velt documentation](https://docs.velt.dev): SDK guides.
+- [Velt text editor setup](https://docs.velt.dev/text-editor-setup/overview): editor integration guides.
+- [Velt](https://velt.dev): product site.
+- [Slate.js documentation](https://docs.slatejs.org): editor framework.
+- [shadcn/ui documentation](https://ui.shadcn.com/docs): UI components.
 
-### BubbleMenu (Floating Toolbar)
-
-- Appears automatically when text is selected
-- Quick-access formatting: Bold, Italic, Underline
-- **Add Comment** button with gradient accent — select text and instantly start a comment thread
-- Portal-rendered for proper z-index layering
-- Smooth fade-in/out transitions
-  **CRDT**
-
-## 🔗 Velt Integration
-
-This project demonstrates **Velt's TipTap integration** for adding collaborative comments to rich text documents.
-
-### Velt Components Used
-
-| Component               | Purpose                                                    |
-| ----------------------- | ---------------------------------------------------------- |
-| `VeltProvider`          | Main provider wrapping the app for Velt SDK initialization |
-| `VeltPresence`          | Displays active users viewing the document                 |
-| `VeltNotificationsTool` | Shows notification bell with comment updates               |
-| `VeltSidebarButton`     | Toggle button for comments sidebar                         |
-| `VeltCommentsSidebar`   | Sidebar panel showing all comments                         |
-
-### TipTap Velt Plugin
-
-The editor uses `@veltdev/tiptap-velt-comments` for inline comments:
-
-```tsx
-import {
-  TiptapVeltComments,
-  renderComments,
-  addComment,
-} from "@veltdev/tiptap-velt-comments";
-import { useCommentAnnotations } from "@veltdev/react";
-
-// In editor extensions
-TiptapVeltComments.configure({ persistVeltMarks: false });
-
-// Render existing comments
-renderComments({ editor, editorId, commentAnnotations });
-
-// Add new comment on selected text
-addComment({ editor, editorId });
-```
-
-### Configuration
-
-| Setting          | Value                              |
-| ---------------- | ---------------------------------- |
-| Document ID      | `slate-js-velt`                    |
-| Organization ID  | `organization_id`                  |
-| Predefined Users | Nany (`user001`), Mary (`user002`) |
+<br />
 
 ---
 
-## 🎯 How to Use
+<div align="center">
 
-1. **Switch Users** — Click the user dropdown in the top bar to switch between Nany and Mary
-2. **Add Comments** — Select text in the document, then click the comment button in the bubble menu
-3. **View Comments** — Click the sidebar button to see all comments
-4. **Toggle Theme** — Use the theme toggle button to switch between light and dark modes
-5. **View Presence** — See other active users' avatars in the top bar
+<a href="https://studio1hq.com">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Studio1HQ/website/main/brand/studio1-logo-on-dark.svg" />
+    <img src="https://raw.githubusercontent.com/Studio1HQ/website/main/brand/studio1-logo-on-light.svg" alt="Studio1" width="160" />
+  </picture>
+</a>
 
-## 📚 Documentation & Resources
+Built by **[Studio1](https://studio1hq.com)**, the technical content and DevRel partner for devtool teams. Made with [Velt](https://velt.dev).<br />
+Browse more open-source examples at [github.com/Studio1HQ](https://github.com/Studio1HQ).
 
-### Velt
+[![Website](https://img.shields.io/badge/studio1hq.com-0b0807?style=for-the-badge&logo=googlechrome&logoColor=white)](https://studio1hq.com)
+[![Book a call](https://img.shields.io/badge/Book_a_strategy_call-f97316?style=for-the-badge&logo=googlecalendar&logoColor=white)](https://cal.com/studio1/collab)
+[![X](https://img.shields.io/badge/%40Studio1HQ-141414?style=for-the-badge&logo=x&logoColor=white)](https://x.com/Studio1HQ)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0a66c2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/studio1hq/)
 
-- [Velt Documentation](https://docs.velt.dev)
-- [TipTap Integration Guide](https://docs.velt.dev/text-editor-setup/overview)
-- [Velt API Reference](https://docs.velt.dev/api-reference/sdk/react)
-- [Velt Dashboard](https://app.velt.dev)
+<sub><a href="https://studio1hq.com">studio1hq.com</a> · Technical content, docs, video and DevRel for devtools</sub>
 
-### UI Components
-
-- [shadcn/ui Documentation](https://ui.shadcn.com/docs)
-- [Radix UI Primitives](https://www.radix-ui.com/primitives)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+</div>
